@@ -33,10 +33,8 @@
   <title>Random Number Guess, PHP</title>
 </head>
 
-
 <body>
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-  <script src="./js/script.js"></script>
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <header class="mdl-layout__header">
       <div class="mdl-layout__header-row">
@@ -45,28 +43,32 @@
     </header>
     <main class="mdl-layout__content">
       <div class="right-image">
-        <img src="./images/dice.gif" alt="dice gif" />
+        <img src="./images/dice.gif" />
       </div>
-      <div class="page-content">Pick a number between 1 and 6</div>
-      <br />
-      <br />
       <div class="page-content-php">
-        <form action="./answer.php" method="GET">
-          <div class="mdl-textfield mdl-js-textfield">
-            <input class="mdl-textfield__input" type="number" name="userNumber" />
-            <label class="mdl-textfield__label" for="userNumber">enter</label>
-            <span class="mdl-textfield__error">Input is not a number!</span>
+        <div id="user-info">
+          <?php
+          $randomNumber = random_int(1, 6);
+          //input
+          $userNumber = (int) $_GET["userNumber"];
+          // process
+          if ($userNumber === $randomNumber) {
+            // output
+            echo "The number " . $userNumber . " was the correct number";
+          }
+          // process
+          if ($userNumber === $randomNumber) {
+            echo "You have guessed the correct number!";
+          } else {
+            echo "You have guessed the wrong number!<br/>The Correct Number Was: " . $randomNumber;
+          }
+          ?>
+          <div class="page-content-answer">
+            <a href="./index.php">Return</a>
           </div>
-          <br />
-          <!-- Accent-colored raised button with ripple -->
-          <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
-            type="submit">
-            Check!
-          </button>
-        </form>
-      </div>
+        </div>
     </main>
   </div>
-</body>
+  </body>
 
 </html>
