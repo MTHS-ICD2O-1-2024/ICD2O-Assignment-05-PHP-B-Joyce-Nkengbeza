@@ -33,57 +33,62 @@
       <div class="page-content-php">
         <div id="user-info">
           <?php
-          // Get input
-          $limit = $_GET["limit"];
-
-          // check if a number is prime
-          function isPrime($num)
+          // This program finds prime numbers and multiplies them using addition
+          function isPrime($number)
           {
-            if ($num < 2) return false;
-            for ($i = 2; $i <= sqrt($num); $i++) {
-              if ($num % $i == 0) return false;
+            $count = 0;
+            $loopCounter = 1;
+            
+            while ($loopCounter <= $number) {
+              if ($number % $loopCounter == 0) {
+                $count = $count + 1;
+              }
+              $loopCounter = $loopCounter + 1;
             }
-            return true;
+
+            if ($count == 2) {
+              return true;
+            } else {
+              return false;
+            }
           }
 
-          // Multiply using addition
-          function multiplyByAddition($a, $b)
+          function multiplyByAdding($a, $b)
           {
-            $result = 0;
-            for ($i = 0; $i < $b; $i++) {
-              $result += $a;
+            $total = 0;
+            $counter = 0;
+
+            while ($counter < $b) {
+              $total = $total + $a;
+              $counter = $counter + 1;
             }
-            return $result;
+
+            return $total;
           }
 
-          $product = 1;
-          $primes = [];
-          $steps = "1";
+          // Main program
+          if (isset($_POST["limit"])) {
+            $limit = intval($_POST["limit"]);
+            $number = 2;
+            $product = 1;
+            $steps = "1";
+            $primeList = "";
 
-          for ($i = 2; $i <= $limit; $i++) {
-            if (isPrime($i)) {
-              $primes[] = $i;
-              $product = multiplyByAddition($product, $i);
-              $steps .= " × $i";
+            while ($number <= $limit) {
+              if (isPrime($number)) {
+                $product = multiplyByAdding($product, $number);
+                $steps = $steps . " × " . $number;
+                $primeList = $primeList . $number . ", ";
+              }
+              $number = $number + 1;
             }
-          }
 
-          // Output
-          if (count($primes) > 0) {
-            echo "Prime numbers up to $limit: " . implode(", ", $primes) . "<br>";
-            echo "Multiplication using only addition: $steps<br>";
-            echo "Final product: $product<br>";
-          } else {
-            echo "There are no prime numbers in the range.";
+            if ($primeList != "") {
+              echo "Prime numbers: " . rtrim($primeList, ", ") . "<br>";
+              echo "Steps: " . $steps . "<br>";
+              echo "Final product: " . $product;
+            } else {
+              echo "There are no prime numbers in that range.";
+            }
           }
           ?>
-          <div class="page-content-answer">
-            <a href="./index.html">Return</a>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-</body>
-
-</html>
