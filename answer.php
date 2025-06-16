@@ -33,58 +33,55 @@
       <div class="page-content-php">
         <div id="user-info">
           <?php
-          // This program finds prime numbers and multiplies them using addition
-          function isPrime($number)
-          {
-            $count = 0;
-            $loopCounter = 1;
-            
-            while ($loopCounter <= $number) {
-              if ($number % $loopCounter == 0) {
-                $count = $count + 1;
-              }
-              $loopCounter = $loopCounter + 1;
-            }
+          // This program finds prime numbers and multiplies them using addition,
+          // written without functions, to match beginner-level PHP concepts.
 
-            if ($count == 2) {
-              return true;
-            } else {
-              return false;
-            }
-          }
-
-          function multiplyByAdding($a, $b)
-          {
-            $total = 0;
-            $counter = 0;
-
-            while ($counter < $b) {
-              $total = $total + $a;
-              $counter = $counter + 1;
-            }
-
-            return $total;
-          }
-
-          // Main program
-          if (isset($_POST["limit"])) {
-            $limit = intval($_POST["limit"]);
+          if (isset($_GET["limit"])) {
+            $limit = intval($_GET["limit"]);
             $number = 2;
             $product = 1;
             $steps = "1";
             $primeList = "";
+            $commaNeeded = false;
 
             while ($number <= $limit) {
-              if (isPrime($number)) {
-                $product = multiplyByAdding($product, $number);
-                $steps = $steps . " × " . $number;
-                $primeList = $primeList . $number . ", ";
+              // Check if number is prime:
+              $count = 0;
+              $testNumber = 1;
+              while ($testNumber <= $number) {
+                if ($number % $testNumber == 0) {
+                  $count = $count + 1;
+                }
+                $testNumber = $testNumber + 1;
               }
+
+              if ($count == 2) {
+                // Multiply product by number using addition:
+                $total = 0;
+                $counter = 0;
+                while ($counter < $product) {
+                  $total = $total + $number;
+                  $counter = $counter + 1;
+                }
+                $product = $total;
+
+                // Build primeList string with commas:
+                if ($commaNeeded == true) {
+                  $primeList = $primeList . ", ";
+                }
+                $primeList = $primeList . $number;
+                $commaNeeded = true;
+
+                // Add to steps string:
+                $steps = $steps . " × " . $number;
+              }
+
               $number = $number + 1;
             }
 
+            // Output
             if ($primeList != "") {
-              echo "Prime numbers: " . rtrim($primeList, ", ") . "<br>";
+              echo "Prime numbers: " . $primeList . "<br>";
               echo "Steps: " . $steps . "<br>";
               echo "Final product: " . $product;
             } else {
